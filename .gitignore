@@ -1,3 +1,4 @@
 /node_modules
 /dust
 *.env
+/src/generated/prisma
