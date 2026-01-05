@@ -6,22 +6,27 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "dotenv -- ts-node src/index",
-    "dev": "dotenv -- nodemon src/index.ts"
+    "dev": "dotenv -- tsx watch src/index.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.2.1"
+    "@neondatabase/serverless": "^1.0.2",
+    "@prisma/adapter-neon": "^7.2.0",
+    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/client": "^7.2.0",
+    "express": "^5.2.1",
+    "pg": "^8.16.3"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.3",
     "@types/pg": "^8.16.0",
     "dotenv-cli": "^11.0.0",
-    "nodemon": "^3.1.11",
     "prettier": "^3.7.4",
     "prisma": "^7.2.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }

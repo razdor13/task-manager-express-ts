@@ -1,8 +1,12 @@
-import exprees, { Response, Request } from 'express';
-import { Card, CreateCardRequest, GetCardsResponce } from '../types/cards';
-import { IdParams } from '../types/common';
+import express, { Response, Request } from 'express';
+import {
+  Card,
+  CreateCardRequest,
+  GetCardsResponce,
+} from '../types/cards/index.js';
+import { IdParams } from '../types/common/index.js';
 
-export const cardsRouter = exprees.Router();
+export const cardsRouter = express.Router();
 
 cardsRouter.get(
   '/',
