@@ -1,9 +1,6 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
-    /* Visit https://aka.ms/tsconfig to read
-
-/* Language and Environment */
     "target": "es2016",
 
     /* Modules */

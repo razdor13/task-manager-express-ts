@@ -5,38 +5,77 @@ import {
   GetCardsResponce,
 } from '../types/cards/index.js';
 import { IdParams } from '../types/common/index.js';
+import { prisma } from '../db.js';
 
 export const cardsRouter = express.Router();
 
 cardsRouter.get(
   '/',
-  (request: Request<{}, {}>, response: Response<GetCardsResponce>) => {
-    //todo return cards
+  async (request: Request<{}, {}>, response: Response<GetCardsResponce>) => {
+    const cards = await prisma.card.findMany();
+    response.send(cards);
   },
 );
+
 cardsRouter.get(
   '/:id',
-  (request: Request<IdParams, {}>, response: Response<Card>) => {
-    //todo return card
-    request.params.id;
+  async (request: Request<IdParams, {}>, response: Response<Card>) => {
+    const card = await prisma.card.findUnique({
+      where: { id: request.params.id },
+    });
+
+    if (!card) {
+      response.sendStatus(404);
+      return;
+    }
+
+    response.send(card);
   },
 );
+
 cardsRouter.post(
-  '/:id',
-  (request: Request<{}, CreateCardRequest>, response: Response<Card>) => {
-    //todo create card
+  '/',
+  async (request: Request<{}, CreateCardRequest>, response: Response<Card>) => {
+    const card: Card = {
+      text: request.body.text,
+    };
+
+    await prisma.card.create({
+      data: card,
+    });
+    
+    response.send(card);
   },
 );
+
 cardsRouter.put(
   '/:id',
-  (request: Request<IdParams, Card>, response: Response<Card>) => {
-    //todo update card
+  async (
+    request: Request<IdParams, Card, CreateCardRequest>,
+    response: Response<Card>,
+  ) => {
+    const updatedCard = await prisma.card.update({
+      where: {
+        id: request.params.id,
+      },
+      data: {
+        text: request.body.text,
+      },
+    });
+
+    response.send(updatedCard);
   },
 );
 
 cardsRouter.delete(
   '/:id',
-  (request: Request<IdParams>, response: Response<void>) => {
-    //todo delete card
+  async (request: Request<IdParams>, response: Response<void>) => {
+    await prisma.card.delete({
+      where: {
+        id: request.params.id,
+      },
+    });
+
+    response.sendStatus(204);
   },
 );
