@@ -6,6 +6,7 @@ import {
 } from '../types/cards/index.js';
 import { IdParams } from '../types/common/index.js';
 import { prisma } from '../db.js';
+import { valideteCardInput } from './validetion/validate-card-input.js';
 
 export const cardsRouter = express.Router();
 
@@ -35,6 +36,7 @@ cardsRouter.get(
 
 cardsRouter.post(
   '/',
+  valideteCardInput,
   async (request: Request<{}, CreateCardRequest>, response: Response<Card>) => {
     const card: Card = {
       text: request.body.text,
@@ -43,13 +45,14 @@ cardsRouter.post(
     await prisma.card.create({
       data: card,
     });
-    
+
     response.send(card);
   },
 );
 
 cardsRouter.put(
   '/:id',
+  valideteCardInput,
   async (
     request: Request<IdParams, Card, CreateCardRequest>,
     response: Response<Card>,

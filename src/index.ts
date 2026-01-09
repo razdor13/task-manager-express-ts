@@ -2,12 +2,13 @@ import express, { request, response } from 'express';
 import { PORT } from './config.js';
 import { cardsRouter } from './routers/cards.router.js';
 import { connectDB } from './db.js';
+import { logger } from './loger.js';
 
 const server = express();
 
 async function run() {
   await connectDB();
-
+  server.use(logger);
   server.get('/', (req, res) => {
     res.send('you are ok');
   });
