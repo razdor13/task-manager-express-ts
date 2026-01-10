@@ -7,7 +7,37 @@ datasource db {
   provider = "postgresql"
 }
 
+
+// 1. Найвищий рівень - Дошка
+model Board {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  
+  // Зв'язок: у однієї дошки багато колонок
+  columns   Column[]
+}
+
+// 2. Середній рівень - Колонки (Backlog, In Progress, Done)
+model Column {
+  id       String @id @default(uuid())
+  name     String
+  
+  // Зв'язок з дошкою (обов'язковий)
+  board_id String
+  board    Board  @relation(fields: [board_id], references: [id], onDelete: Cascade)
+
+  // Зв'язок: у однієї колонки багато карток
+  cards    Card[]
+}
+
+// 3. Нижній рівень - Картки
 model Card {
-  id   String @id @default(uuid())
-  text String
+  id        String @id @default(uuid())
+  text      String
+  createdAt DateTime @default(now())
+
+  // Зв'язок з колонкою (обов'язковий)
+  column_id String
+  column    Column @relation(fields: [column_id], references: [id], onDelete: Cascade)
 }

@@ -37,16 +37,16 @@ cardsRouter.get(
 cardsRouter.post(
   '/',
   valideteCardInput,
-  async (request: Request<{}, CreateCardRequest>, response: Response<Card>) => {
-    const card: Card = {
-      text: request.body.text,
-    };
+  async (request: Request<{}, {}, CreateCardRequest>, response: Response) => {
+    const { text, column_id } = request.body;
 
-    await prisma.card.create({
-      data: card,
+    const newCard = await prisma.card.create({
+      data: {
+        text: text,
+        column_id: column_id,
+      },
     });
-
-    response.send(card);
+    response.send(newCard);
   },
 );
 
