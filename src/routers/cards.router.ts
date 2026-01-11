@@ -6,7 +6,7 @@ import {
 } from '../types/cards/index.js';
 import { IdParams } from '../types/common/index.js';
 import { prisma } from '../db.js';
-import { valideteCardInput } from './validetion/validate-card-input.js';
+import { valideteCardInput } from './validation/validate-card-input.js';
 
 export const cardsRouter = express.Router();
 
